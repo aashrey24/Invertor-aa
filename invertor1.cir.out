@@ -1,0 +1,27 @@
+* /home/aashreypatel/esim-workspace/invertor1/invertor1.cir
+
+.include "/usr/share/local/sky130_fd_pr/models/sky130_fd_pr__model__diode_pw2nd_11v0.model.spice"
+.include "/usr/share/local/sky130_fd_pr/models/sky130_fd_pr__model__r+c.model.spice"
+.include "/usr/share/local/sky130_fd_pr/models/sky130_fd_pr__model__pnp.model.spice"
+.lib "/usr/share/local/sky130_fd_pr/models/sky130.lib.spice" tt
+.include "/usr/share/local/sky130_fd_pr/models/sky130_fd_pr__model__linear.model.spice"
+.include "/usr/share/local/sky130_fd_pr/models/sky130_fd_pr__model__inductors.model.spice"
+.include "/usr/share/local/sky130_fd_pr/models/sky130_fd_pr__model__diode_pd2nw_11v0.model.spice"
+xsc1 vout vin net-_sc1-pad3_ net-_sc1-pad3_ sky130_fd_pr__pfet_01v8 
+xsc2 vout vin gnd ? sky130_fd_pr__nfet_01v8 
+v2  vin gnd pulse(0 1.8 0.1n 0.1n 0.1n 5m 10m)
+v1 net-_sc1-pad3_ gnd  dc 1.8
+* u1  vin plot_v1
+* u2  vout plot_v1
+* s c m o d e
+.tran 0.001e-00 0.1e-00 0e-00
+
+* Control Statements 
+.control
+run
+print allv > plot_data_v.txt
+print alli > plot_data_i.txt
+plot v(vin)
+plot v(vout)
+.endc
+.end
